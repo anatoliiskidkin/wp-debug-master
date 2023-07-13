@@ -77,7 +77,7 @@ Please make sure to read the [contribution guidelines](CONTRIBUTING.md) and adhe
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under the GNU General Public License v2.0 or later. See the [LICENSE](LICENSE) file for details.
 
 ## Support
 
