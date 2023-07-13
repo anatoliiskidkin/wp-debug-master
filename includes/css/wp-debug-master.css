@@ -1,0 +1,61 @@
+.highlight {
+    background-color: #7bea1a;
+    color: #3c434a;
+}
+
+.log-record {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.wp-debug-master-button-group form {
+    display: inline-block;
+    margin-right: 10px;
+    margin-top: 15px;
+}
+
+.wp-debug-master-status-enabled {
+    color: green;
+}
+
+.wp-debug-master-status-disabled {
+    color: red;
+}
+
+.info-icon {
+    background-color: #c4e5f5;
+    border: 1px solid #c7c6c6;
+    padding: 10px;
+    margin: 20px 0;
+    float: left;
+    width: 100%;
+}
+
+.info-icon:before {
+    content: "\f534";
+    font-family: dashicons;
+    display: inline-block;
+    font-size: 20px;
+    color: #777;
+    margin: 0 10px;
+    height: 100%;
+}
+
+/* Custom Notice-info styles */
+.custom-notice-info {
+    margin: 10px 0 15px;
+    background: #fff;
+    border: 1px solid #c3c4c7;
+    border-left-width: 4px;
+    box-shadow: 0 1px 1px rgba(0,0,0,.04);
+    color: #3c434a;
+    font-size: 13px;
+    line-height: 1.4em;
+    padding: 5px 10px;
+}
+.custom-notice-info.grey {
+    border-left-color: #72aee6;
+}
+.custom-notice-info.orange {
+    border-left-color: #e0be26;
+}
