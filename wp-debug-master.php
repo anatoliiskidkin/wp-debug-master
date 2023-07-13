@@ -3,7 +3,7 @@
 Plugin Name: WP Debug Master
 Plugin URI: <your-plugin-uri>
 Description: A plugin to enable WP Debug functionality and provide a debug overview.
-Version: 1.0
+Version: 1.0.0
 Author: Anatolii Skidkin
 Author URI: <your-author-uri>
 License: GPL v2 or later
