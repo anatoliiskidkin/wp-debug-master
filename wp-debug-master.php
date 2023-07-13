@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: WP Debug Master
-Plugin URI: <your-plugin-uri>
+Plugin URI: https://debugdrill.com/wp-debug-master
 Description: A plugin to enable WP Debug functionality and provide a debug overview.
 Version: 1.0.0
-Author: Anatolii Skidkin
-Author URI: <your-author-uri>
+Author: DebugDrill
+Author URI: https://debugdrill.com
 License: GPL v2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: wp-debug-master
