@@ -7,7 +7,7 @@ Version: 1.0.0
 Author: DebugDrill
 Author URI: https://debugdrill.com
 License: GPL v2 or later
-License URI: https://www.gnu.org/licenses/gpl-2.0.html
+License URI: https://github.com/anatoliiskidkin/wp-debug-master/blob/main/LICENSE
 Text Domain: wp-debug-master
 Domain Path: /languages
 */
