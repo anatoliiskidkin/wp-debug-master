@@ -1,6 +1,6 @@
 # WP Debug Master
 
-[![WordPress Plugin Version](https://img.shields.io/wordpress/plugin/v/wp-debug-master.svg)](https://wordpress.org/plugins/wp-debug-master/)
+[![WordPress Plugin Version](https://img.shields.io/wordpress/plugin/v/wp-debug-master.svg)](https://wordpress.org/plugins/debug-master/)
 [![WordPress Plugin Downloads](https://img.shields.io/wordpress/plugin/dt/wp-debug-master.svg)](https://wordpress.org/plugins/wp-debug-master/)
 [![WordPress Plugin Rating](https://img.shields.io/wordpress/plugin/r/wp-debug-master.svg)](https://wordpress.org/plugins/wp-debug-master/)
 [![License](https://img.shields.io/github/license/anatoliiskidkin/wp-debug-master.svg)](https://github.com/anatoliiskidkin/wp-debug-master/blob/master/LICENSE)
