@@ -24,6 +24,13 @@ function wp_debug_master_render_settings_page()
 
     echo '<div class="wrap">';
     echo '<h1>' . esc_html__('WP Debug Master Settings', 'wp-debug-master') . '</h1>';
+
+    // Check if the WP_DEBUG, WP_DEBUG_LOG, WP_DEBUG_DISPLAY, SCRIPT_DEBUG, and SAVEQUERIES constants are defined
+    $debug_constants_defined = defined('WP_DEBUG') || defined('WP_DEBUG_LOG') || defined('WP_DEBUG_DISPLAY') || defined('SCRIPT_DEBUG') || defined('SAVEQUERIES');
+
+    // If none of the debug constants are defined, display a message
+    $debug_constants_defined ? __('DEBUG constants were found in your wp-config.php file', 'wp-debug-master') : __('No DEBUG constants are defined in the wp-config.php file.', 'wp-debug-master');
+
     // New button to generate debug constants
     echo '<form method="post" action="' . esc_url(admin_url('admin-post.php')) . '">';
     echo '<input type="hidden" name="action" value="wp_debug_master_generate_debug_constants">';

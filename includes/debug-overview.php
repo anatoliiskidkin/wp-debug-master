@@ -73,16 +73,31 @@ function wp_debug_master_render_overview_page() {
     if ($log_cleared) {
         echo '<div class="updated notice"><p>' . esc_html__('Log file cleared successfully.', 'wp-debug-master') . '</p></div>';
     }
-    // Check if the Debug function is enabled.
-    $debug_enabled = get_option('wp_debug_master_enable_debug', 'enable');
+    // Check if the Debug function is  (old way).
+    // $debug_enabled = get_option('wp_debug_master_enable_debug', 'enable');
+    
+    // Check if the DEBUG constants are defined and enabled
+    $debug_enabled = defined('WP_DEBUG') && WP_DEBUG;
+    $debug_log_enabled = defined('WP_DEBUG_LOG') && WP_DEBUG_LOG;
+    $debug_display_enabled = defined('WP_DEBUG_DISPLAY') && WP_DEBUG_DISPLAY;
+    $debug_script_enabled = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG;
+    $debug_savequeries_enabled = defined('SAVEQUERIES') && SAVEQUERIES;
+
     $status_message = $debug_enabled ? '' : '<p>' . __('Debug is currently disabled but existing log records are still displayed.', 'wp-debug-master') . '</p>';
 
+    // Get the status of other debug parameters from the settings (old way)
+    //$debug_status = get_option('wp_debug_master_enable_debug', 'disable') === 'enable' ? __('Enabled', 'wp-debug-master') : __('Disabled', 'wp-debug-master');
+    //$debug_log = get_option('wp_debug_master_debug_log', 'disable');
+    //$debug_display = get_option('wp_debug_master_debug_display', 'disable');
+    //$script_debug = get_option('wp_debug_master_script_debug', 'disable');
+    //$savequeries_debug = get_option('wp_debug_master_enable_save_queries', 'disable');
+
     // Get the status of other debug parameters from the settings
-    $debug_status = get_option('wp_debug_master_enable_debug', 'disable') === 'enable' ? __('Enabled', 'wp-debug-master') : __('Disabled', 'wp-debug-master');
-    $debug_log = get_option('wp_debug_master_debug_log', 'disable');
-    $debug_display = get_option('wp_debug_master_debug_display', 'disable');
-    $script_debug = get_option('wp_debug_master_script_debug', 'disable');
-    $savequeries_debug = get_option('wp_debug_master_enable_save_queries', 'disable');
+    $debug_status = $debug_enabled ? __('Enabled', 'wp-debug-master') : __('Disabled', 'wp-debug-master');
+    $debug_log = $debug_log_enabled ? __('Enabled', 'wp-debug-master') : __('Disabled', 'wp-debug-master');
+    $debug_display = $debug_display_enabled ? __('Enabled', 'wp-debug-master') : __('Disabled', 'wp-debug-master');
+    $script_debug = $debug_script_enabled ? __('Enabled', 'wp-debug-master') : __('Disabled', 'wp-debug-master');
+    $savequeries_debug = $debug_savequeries_enabled ? __('Enabled', 'wp-debug-master') : __('Disabled', 'wp-debug-master');
 
     // Set the color classes based on the status
     $debug_status_class = $debug_status === 'Enabled' ? 'wp-debug-master-status-enabled' : 'wp-debug-master-status-disabled';
