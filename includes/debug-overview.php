@@ -100,11 +100,11 @@ function wp_debug_master_render_overview_page() {
     $savequeries_debug = $debug_savequeries_enabled ? __('Enabled', 'wp-debug-master') : __('Disabled', 'wp-debug-master');
 
     // Set the color classes based on the status
-    $debug_status_class = $debug_status === 'enable' ? 'wp-debug-master-status-enabled' : 'wp-debug-master-status-disabled';
-    $debug_log_class = $debug_log === 'enable' ? 'wp-debug-master-status-enabled' : 'wp-debug-master-status-disabled';
-    $debug_display_class = $debug_display === 'enable' ? 'wp-debug-master-status-enabled' : 'wp-debug-master-status-disabled';
-    $script_debug_class = $script_debug === 'enable' ? 'wp-debug-master-status-enabled' : 'wp-debug-master-status-disabled';
-    $savequeries_debug_class = $savequeries_debug === 'enable' ? 'wp-debug-master-status-enabled' : 'wp-debug-master-status-disabled';
+    $debug_status_class = $debug_status === 'Enabled' ? 'wp-debug-master-status-enabled' : 'wp-debug-master-status-disabled';
+    $debug_log_class = $debug_log === 'Enabled' ? 'wp-debug-master-status-enabled' : 'wp-debug-master-status-disabled';
+    $debug_display_class = $debug_display === 'Enabled' ? 'wp-debug-master-status-enabled' : 'wp-debug-master-status-disabled';
+    $script_debug_class = $script_debug === 'Enabled' ? 'wp-debug-master-status-enabled' : 'wp-debug-master-status-disabled';
+    $savequeries_debug_class = $savequeries_debug === 'Enabled' ? 'wp-debug-master-status-enabled' : 'wp-debug-master-status-disabled';
 
     // Start the output buffer.
     ob_start();
@@ -115,10 +115,10 @@ function wp_debug_master_render_overview_page() {
     echo '<h3>' . esc_html__('Debug Parameters Status:', 'wp-debug-master') . '</h3>';
     echo '<ul>';
     echo '<li>' . __('WP Debug:', 'wp-debug-master') . ' <span class="' . $debug_status_class . '">' . $debug_status . '</span></li>';
-    echo '<li>' . __('Debug Log:', 'wp-debug-master') . ' <span class="' . $debug_log_class . '">' . ($debug_log === 'enable' ? __('Enabled', 'wp-debug-master') : __('Disabled', 'wp-debug-master')) . '</span></li>';
-    echo '<li>' . __('Debug Display:', 'wp-debug-master') . ' <span class="' . $debug_display_class . '">' . ($debug_display === 'enable' ? __('Enabled', 'wp-debug-master') : __('Disabled', 'wp-debug-master')) . '</span></li>';
-    echo '<li>' . __('Script Debug:', 'wp-debug-master') . ' <span class="' . $script_debug_class . '">' . ($script_debug === 'enable' ? __('Enabled', 'wp-debug-master') : __('Disabled', 'wp-debug-master')) . '</span></li>';
-    echo '<li>' . __('Save Queries:', 'wp-debug-master') . ' <span class="' . $savequeries_debug_class . '">' . ($savequeries_debug === 'enable' ? __('Enabled', 'wp-debug-master') : __('Disabled', 'wp-debug-master')) . '</span></li>';
+    echo '<li>' . __('Debug Log:', 'wp-debug-master') . ' <span class="' . $debug_log_class . '">' . $debug_log . '</span></li>';
+    echo '<li>' . __('Debug Display:', 'wp-debug-master') . ' <span class="' . $debug_display_class . '">' . $debug_display . '</span></li>';
+    echo '<li>' . __('Script Debug:', 'wp-debug-master') . ' <span class="' . $script_debug_class . '">' . $script_debug . '</span></li>';
+    echo '<li>' . __('Save Queries:', 'wp-debug-master') . ' <span class="' . $savequeries_debug_class . '">' . $savequeries_debug . '</span></li>';
     echo '</ul>';
     echo $status_message;
 

@@ -72,25 +72,23 @@ function wp_debug_master_handle_settings_form()
             $config_path = ABSPATH . 'wp-config.php';
 
             // Check if the wp-config.php file exists
-            if (file_exists($wp_config_path)) {
-
+            if (file_exists($config_path)) {
                 // Read the content of wp-config.php
                 $config_content = file_get_contents($config_path);
-
-                // Update the SAVEQUERIES constant
-                $config_content = preg_replace("/define\('SAVEQUERIES',\s*.*?\);/i", "define('SAVEQUERIES', " . ($enable_save_queries === 'enable' ? 'true' : 'false') . ");", $config_content, -1, $count_queries);
-
-                // Update the WP_DEBUG constant
-                $config_content = preg_replace("/define\('WP_DEBUG',\s*.*?\);/i", "define('WP_DEBUG', " . ($enable_debug === 'enable' ? 'true' : 'false') . ");", $config_content, -1, $count_debug);
-
-                // Update the WP_DEBUG_LOG constant
-                $config_content = preg_replace("/define\('WP_DEBUG_LOG',\s*.*?\);/i", "define('WP_DEBUG_LOG', " . ($enable_debug_logging === 'enable' ? 'true' : 'false') . ");", $config_content, -1, $count_log);
-
-                // Update the WP_DEBUG_DISPLAY constant
-                $config_content = preg_replace("/define\('WP_DEBUG_DISPLAY',\s*.*?\);/i", "define('WP_DEBUG_DISPLAY', " . ($enable_debug_display === 'enable' ? 'true' : 'false') . ");", $config_content, -1, $count_display);
-
-                // Update the SCRIPT_DEBUG constant
-                $config_content = preg_replace("/define\('SCRIPT_DEBUG',\s*.*?\);/i", "define('SCRIPT_DEBUG', " . ($enable_script_debug === 'enable' ? 'true' : 'false') . ");", $config_content, -1, $count_script_debug);
+            
+                // For each debug constant
+                foreach (['WP_DEBUG' => $enable_debug, 'WP_DEBUG_LOG' => $enable_debug_logging, 'WP_DEBUG_DISPLAY' => $enable_debug_display, 'SCRIPT_DEBUG' => $enable_script_debug, 'SAVEQUERIES' => $enable_save_queries] as $constant => $value) {
+                    // If the constant is defined in the wp-config.php file
+                    if (strpos($config_content, "define('$constant',") !== false) {
+                        // Replace the line where the constant is defined with the desired value
+                        $config_content = preg_replace("/define\\('$constant',\\s*.*?\\);/i", "define('$constant', " . ($value === 'enable' ? 'true' : 'false') . ");", $config_content);
+                    } else {
+                        // Prepare the line that defines the constant with the desired value
+                        $new_line = "\ndefine('$constant', " . ($value === 'enable' ? 'true' : 'false') . ");";
+                        // Insert the new line before the "That's all, stop editing! Happy publishing." comment
+                        $config_content = str_replace("/* That's all, stop editing! Happy publishing. */", "$new_line\n/* That's all, stop editing! Happy publishing. */", $config_content);
+                    }
+                }
 
                 // Write the updated content back to wp-config.php
                 $write_result = file_put_contents($config_path, $config_content);
