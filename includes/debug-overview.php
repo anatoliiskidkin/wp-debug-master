@@ -100,7 +100,7 @@ function wp_debug_master_render_overview_page() {
     $savequeries_debug = $debug_savequeries_enabled ? __('Enabled', 'wp-debug-master') : __('Disabled', 'wp-debug-master');
 
     // Set the color classes based on the status
-    $debug_status_class = $debug_status === 'Enabled' ? 'wp-debug-master-status-enabled' : 'wp-debug-master-status-disabled';
+    $debug_status_class = $debug_status === 'enable' ? 'wp-debug-master-status-enabled' : 'wp-debug-master-status-disabled';
     $debug_log_class = $debug_log === 'enable' ? 'wp-debug-master-status-enabled' : 'wp-debug-master-status-disabled';
     $debug_display_class = $debug_display === 'enable' ? 'wp-debug-master-status-enabled' : 'wp-debug-master-status-disabled';
     $script_debug_class = $script_debug === 'enable' ? 'wp-debug-master-status-enabled' : 'wp-debug-master-status-disabled';

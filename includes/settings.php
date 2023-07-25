@@ -25,12 +25,6 @@ function wp_debug_master_render_settings_page()
     echo '<div class="wrap">';
     echo '<h1>' . esc_html__('WP Debug Master Settings', 'wp-debug-master') . '</h1>';
 
-    // Check if the WP_DEBUG, WP_DEBUG_LOG, WP_DEBUG_DISPLAY, SCRIPT_DEBUG, and SAVEQUERIES constants are defined
-    $debug_constants_defined = defined('WP_DEBUG') || defined('WP_DEBUG_LOG') || defined('WP_DEBUG_DISPLAY') || defined('SCRIPT_DEBUG') || defined('SAVEQUERIES');
-
-    // If none of the debug constants are defined, display a message
-    $debug_constants_defined ? __('DEBUG constants were found in your wp-config.php file', 'wp-debug-master') : __('No DEBUG constants are defined in the wp-config.php file.', 'wp-debug-master');
-
     // New button to generate debug constants
     echo '<form method="post" action="' . esc_url(admin_url('admin-post.php')) . '">';
     echo '<input type="hidden" name="action" value="wp_debug_master_generate_debug_constants">';
@@ -77,41 +71,47 @@ function wp_debug_master_handle_settings_form()
             // Update the constants in wp-config.php
             $config_path = ABSPATH . 'wp-config.php';
 
-            // Read the content of wp-config.php
-            $config_content = file_get_contents($config_path);
+            // Check if the wp-config.php file exists
+            if (file_exists($wp_config_path)) {
 
-            // Update the SAVEQUERIES constant
-            $config_content = preg_replace("/define\('SAVEQUERIES',\s*.*?\);/i", "define('SAVEQUERIES', " . ($enable_save_queries === 'enable' ? 'true' : 'false') . ");", $config_content, -1, $count_queries);
+                // Read the content of wp-config.php
+                $config_content = file_get_contents($config_path);
 
-            // Update the WP_DEBUG constant
-            $config_content = preg_replace("/define\('WP_DEBUG',\s*.*?\);/i", "define('WP_DEBUG', " . ($enable_debug === 'enable' ? 'true' : 'false') . ");", $config_content, -1, $count_debug);
+                // Update the SAVEQUERIES constant
+                $config_content = preg_replace("/define\('SAVEQUERIES',\s*.*?\);/i", "define('SAVEQUERIES', " . ($enable_save_queries === 'enable' ? 'true' : 'false') . ");", $config_content, -1, $count_queries);
 
-            // Update the WP_DEBUG_LOG constant
-            $config_content = preg_replace("/define\('WP_DEBUG_LOG',\s*.*?\);/i", "define('WP_DEBUG_LOG', " . ($enable_debug_logging === 'enable' ? 'true' : 'false') . ");", $config_content, -1, $count_log);
+                // Update the WP_DEBUG constant
+                $config_content = preg_replace("/define\('WP_DEBUG',\s*.*?\);/i", "define('WP_DEBUG', " . ($enable_debug === 'enable' ? 'true' : 'false') . ");", $config_content, -1, $count_debug);
 
-            // Update the WP_DEBUG_DISPLAY constant
-            $config_content = preg_replace("/define\('WP_DEBUG_DISPLAY',\s*.*?\);/i", "define('WP_DEBUG_DISPLAY', " . ($enable_debug_display === 'enable' ? 'true' : 'false') . ");", $config_content, -1, $count_display);
+                // Update the WP_DEBUG_LOG constant
+                $config_content = preg_replace("/define\('WP_DEBUG_LOG',\s*.*?\);/i", "define('WP_DEBUG_LOG', " . ($enable_debug_logging === 'enable' ? 'true' : 'false') . ");", $config_content, -1, $count_log);
 
-            // Update the SCRIPT_DEBUG constant
-            $config_content = preg_replace("/define\('SCRIPT_DEBUG',\s*.*?\);/i", "define('SCRIPT_DEBUG', " . ($enable_script_debug === 'enable' ? 'true' : 'false') . ");", $config_content, -1, $count_script_debug);
+                // Update the WP_DEBUG_DISPLAY constant
+                $config_content = preg_replace("/define\('WP_DEBUG_DISPLAY',\s*.*?\);/i", "define('WP_DEBUG_DISPLAY', " . ($enable_debug_display === 'enable' ? 'true' : 'false') . ");", $config_content, -1, $count_display);
 
-            // Write the updated content back to wp-config.php
-            $write_result = file_put_contents($config_path, $config_content);
+                // Update the SCRIPT_DEBUG constant
+                $config_content = preg_replace("/define\('SCRIPT_DEBUG',\s*.*?\);/i", "define('SCRIPT_DEBUG', " . ($enable_script_debug === 'enable' ? 'true' : 'false') . ");", $config_content, -1, $count_script_debug);
 
-            if ($write_result !== false) {
-                error_log('WP_DEBUG constants updated successfully.');
-                error_log('Number of replacements for WP_DEBUG: ' . $count_debug);
-                error_log('Number of replacements for WP_DEBUG_LOG: ' . $count_log);
-                error_log('Number of replacements for WP_DEBUG_DISPLAY: ' . $count_display);
-                error_log('Number of replacements for SCRIPT_DEBUG: ' . $count_script_debug);
-                error_log('Number of replacements for SAVEQUERIES: ' . $count_queries);
+                // Write the updated content back to wp-config.php
+                $write_result = file_put_contents($config_path, $config_content);
+
+                if ($write_result !== false) {
+                    error_log('WP_DEBUG constants updated successfully.');
+                    error_log('Number of replacements for WP_DEBUG: ' . $count_debug);
+                    error_log('Number of replacements for WP_DEBUG_LOG: ' . $count_log);
+                    error_log('Number of replacements for WP_DEBUG_DISPLAY: ' . $count_display);
+                    error_log('Number of replacements for SCRIPT_DEBUG: ' . $count_script_debug);
+                    error_log('Number of replacements for SAVEQUERIES: ' . $count_queries);
+                } else {
+                    error_log('Failed to update constants in wp-config.php.');
+                }
+
+                // Redirect back to the settings page after form submission.
+                wp_redirect(admin_url('admin.php?page=wp-debug-master-settings&settings_saved=true'));
+                exit;
             } else {
-                error_log('Failed to update constants in wp-config.php.');
-            }
-
-            // Redirect back to the settings page after form submission.
-            wp_redirect(admin_url('admin.php?page=wp-debug-master-settings&settings_saved=true'));
-            exit;
+                echo '<p>' . __('The wp-config.php file was not found.', 'wp-debug-master') . '</p>';
+            }    
         }
     }
 }
