@@ -79,12 +79,21 @@ function wp_debug_master_handle_settings_form()
                 // For each debug constant
                 foreach (['WP_DEBUG' => $enable_debug, 'WP_DEBUG_LOG' => $enable_debug_logging, 'WP_DEBUG_DISPLAY' => $enable_debug_display, 'SCRIPT_DEBUG' => $enable_script_debug, 'SAVEQUERIES' => $enable_save_queries] as $constant => $value) {
                     // If the constant is defined in the wp-config.php file
-                    if (strpos($config_content, "define('$constant',") !== false) {
-                        // Replace the line where the constant is defined with the desired value
-                        $config_content = preg_replace("/define\\('$constant',\\s*.*?\\);/i", "define('$constant', " . ($value === 'enable' ? 'true' : 'false') . ");", $config_content);
+                    if (preg_match("/define\\('$constant',\\s*(.*?)\\);/i", $config_content, $matches)) {
+                        // Get the old value of the constant
+                        $old_value = trim($matches[1]);
+                        // Prepare the new value of the constant
+                        $new_value = ($value === 'enable' ? 'true' : 'false');
+                        // If the old value is different from the new value
+                        if ($old_value !== $new_value) {
+                            // Replace the old value with the new value
+                            $config_content = str_replace($matches[0], "define('$constant', $new_value);", $config_content);
+                            // Log the replacement
+                            error_log("The value of $constant was changed from $old_value to $new_value.");
+                        }
                     } else {
                         // Prepare the line that defines the constant with the desired value
-                        $new_line = "\ndefine('$constant', " . ($value === 'enable' ? 'true' : 'false') . ");";
+                        $new_line = "\n/* Debug Constant added by WP Debug Master plugin */\ndefine('$constant', " . ($value === 'enable' ? 'true' : 'false') . ");";
                         // Insert the new line before the "That's all, stop editing! Happy publishing." comment
                         $config_content = str_replace("/* That's all, stop editing! Happy publishing. */", "$new_line\n/* That's all, stop editing! Happy publishing. */", $config_content);
                     }
@@ -92,17 +101,6 @@ function wp_debug_master_handle_settings_form()
 
                 // Write the updated content back to wp-config.php
                 $write_result = file_put_contents($config_path, $config_content);
-
-                if ($write_result !== false) {
-                    error_log('WP_DEBUG constants updated successfully.');
-                    error_log('Number of replacements for WP_DEBUG: ' . $count_debug);
-                    error_log('Number of replacements for WP_DEBUG_LOG: ' . $count_log);
-                    error_log('Number of replacements for WP_DEBUG_DISPLAY: ' . $count_display);
-                    error_log('Number of replacements for SCRIPT_DEBUG: ' . $count_script_debug);
-                    error_log('Number of replacements for SAVEQUERIES: ' . $count_queries);
-                } else {
-                    error_log('Failed to update constants in wp-config.php.');
-                }
 
                 // Redirect back to the settings page after form submission.
                 wp_redirect(admin_url('admin.php?page=wp-debug-master-settings&settings_saved=true'));
