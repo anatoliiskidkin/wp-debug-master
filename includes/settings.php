@@ -101,6 +101,10 @@ function wp_debug_master_handle_settings_form()
 
                 // Write the updated content back to wp-config.php
                 $write_result = file_put_contents($config_path, $config_content);
+                // Clear the opcode cache
+                if (function_exists('opcache_reset')) {
+                    opcache_reset();
+                }
 
                 // Redirect back to the settings page after form submission.
                 wp_redirect(admin_url('admin.php?page=wp-debug-master-settings&settings_saved=true'));
