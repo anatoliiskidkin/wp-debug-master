@@ -79,7 +79,7 @@ function wp_debug_master_handle_settings_form()
                 // For each debug constant
                 foreach (['WP_DEBUG' => $enable_debug, 'WP_DEBUG_LOG' => $enable_debug_logging, 'WP_DEBUG_DISPLAY' => $enable_debug_display, 'SCRIPT_DEBUG' => $enable_script_debug, 'SAVEQUERIES' => $enable_save_queries] as $constant => $value) {
                     // If the constant is defined in the wp-config.php file
-                    if (preg_match("/define\\('$constant',\\s*(.*?)\\);/i", $config_content, $matches)) {
+                    if (preg_match("/define\\(\\s*'{$constant}'\\s*,\\s*(.*?)\\s*\\);/i", $config_content, $matches)) {
                         // Get the old value of the constant
                         $old_value = trim($matches[1]);
                         // Prepare the new value of the constant
@@ -93,7 +93,7 @@ function wp_debug_master_handle_settings_form()
                         }
                     } else {
                         // Prepare the line that defines the constant with the desired value
-                        $new_line = "\n/* Debug Constant added by WP Debug Master plugin */\ndefine('$constant', " . ($value === 'enable' ? 'true' : 'false') . ");";
+                        $new_line = "\n/* Debug Constants added by WP Debug Master plugin */\ndefine( '$constant', " . ($value === 'enable' ? 'true' : 'false') . " );";
                         // Insert the new line before the "That's all, stop editing! Happy publishing." comment
                         $config_content = str_replace("/* That's all, stop editing! Happy publishing. */", "$new_line\n/* That's all, stop editing! Happy publishing. */", $config_content);
                     }
